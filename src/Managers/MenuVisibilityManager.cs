@@ -32,9 +32,9 @@ namespace OutwardModsCommunicatorMenu.Managers
             
             IsVisible = visible;
 
-            if (_menuUI?.RootObject != null)
+            if (_menuUI != null)
             {
-                _menuUI.RootObject.SetActive(visible);
+                _menuUI.Enabled = visible;
             }
 
             if (!visible)

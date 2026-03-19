@@ -16,6 +16,7 @@ using OutwardModsCommunicatorMenu.Utility.Enums;
 using OutwardModsCommunicatorMenu.Managers;
 using UnityEngine;
 using UniverseLib;
+using UniverseLib.Config;
 
 // RENAME 'OutwardModPackTemplate' TO SOMETHING ELSE
 namespace OutwardModsCommunicatorMenu
@@ -53,8 +54,13 @@ namespace OutwardModsCommunicatorMenu
                 LogMessage($"Hello world from {NAME} {VERSION}!");
 
                 Universe.Init(
+                    startupDelay: 1f,
                     onInitialized: () => LogMessage("UniverseLib initialized"),
-                    logHandler: (msg, type) => LogMessage($"[UniverseLib] {msg}"));
+                    logHandler: (msg, type) => LogMessage($"[UniverseLib] {msg}"),
+                    config: new UniverseLibConfig
+                    {
+                        Force_Unlock_Mouse = true
+                    });
 
                 new Harmony(GUID).PatchAll();
                 Managers.UIManager.Instance.Initialize(Log);
