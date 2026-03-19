@@ -142,13 +142,6 @@ When entering parameter values, the menu supports various data types:
 | Collections | Lists and arrays of any supported type |
 | Vectors | `Vector2`, `Vector3`, `Vector4` |
 
-### Input Methods
-
-Parameters can be entered in two ways:
-
-1. **Positional**: Values entered in order matching the parameter definitions
-2. **Named**: Using `--parameterName=value` format
-
 ### Validation
 
 The menu provides real-time validation:
@@ -204,7 +197,6 @@ This software uses **UniverseLib** (https://github.com/sinai-dev/UniverseLib) li
 If you encounter issues or have questions:
 
 - Check the [GitHub Issues](https://github.com/GymMed/Outward-Mods-Communicator-Menu/issues)
-- Leave feedback on the [Thunderstore page](https://thunderstore.io/c/outward/p/GymMed/Mods-Communicator-Menu/)
 
 ---
 
