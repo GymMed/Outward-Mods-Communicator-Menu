@@ -1,0 +1,12 @@
+{
+	"name": "Mods_Communicator_Menu",
+	"version_number": "0.0.1",
+	"website_url": "https://github.com/GymMed/Outward-Mods-Communicator-Menu",
+	"description": "Menu to inspect mods communicator interactions and publish events.",
+	"dependencies": [
+		"GymMed-Chat_Commands_Manager-0.1.0",
+		"GymMed-Mods_Communicator-1.2.0",
+		"sinai-dev-SideLoader-3.8.4",
+		"BepInEx-BepInExPack_Outward-5.4.19"
+	]
+}
