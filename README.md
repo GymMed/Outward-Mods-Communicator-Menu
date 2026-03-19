@@ -85,7 +85,7 @@ Use this tab to send events to mods.
 </summary>
     <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm3.png" alt="Logo"/>
 </details>
-4. Click **Publish** to send the event
+4. Click <strong>Publish</strong> to send the event
 
 **Parameters:**
 - **Registered Parameters**: Parameters that the event was originally designed to accept. Click on them to add to your payload.
@@ -197,7 +197,7 @@ The menu is built using:
 
 This project is licensed under MIT. See [LICENSE](LICENSE) file for details.
 
-This software uses **UniverseLib** (https://github.com/sinai-dev/UniverseLib) licensed under **LGPL-2.1**. The source code for UniverseLib is available at the above URL. A written offer to provide the source code is valid for 3 years from the date of distribution.
+This software uses **UniverseLib** (https://github.com/sinai-dev/UniverseLib) licensed under **LGPL-2.1**. The source code for UniverseLib is available at the above URL.
 
 ## Support
 

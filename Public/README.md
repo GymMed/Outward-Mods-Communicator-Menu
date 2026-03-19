@@ -85,7 +85,7 @@ Use this tab to send events to mods.
 </summary>
     <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm3.png" alt="Logo"/>
 </details>
-4. Click **Publish** to send the event
+4. Click <strong>Publish</strong> to send the event
 
 **Parameters:**
 - **Registered Parameters**: Parameters that the event was originally designed to accept. Click on them to add to your payload.
