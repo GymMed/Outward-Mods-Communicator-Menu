@@ -62,22 +62,32 @@ namespace OutwardModsCommunicatorMenu.Managers
 
         private void CreateMenu()
         {
-            LogMessage("Creating menu UI...");
-            
-            MenuUI = UniversalUI.RegisterUI(OutwardModsCommunicatorMenu.OMCM.GUID, () => { });
-            
-            MenuVisibilityManager.Instance.Initialize(MenuUI);
-            
-            _mainPanel = new MainPanel(MenuUI);
-            
-            LogMessage("Menu UI created successfully");
+            try
+            {
+                LogMessage("Creating menu UI...");
+                MenuUI = UniversalUI.RegisterUI(OutwardModsCommunicatorMenu.OMCM.GUID, () => { });
+                MenuVisibilityManager.Instance.Initialize(MenuUI);
+                _mainPanel = new MainPanel(MenuUI);
+                LogMessage("Menu UI created successfully");
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Error creating menu: {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         public void OnResourcesLoaded()
         {
-            LogMessage("ResourcesPrefabManager.Load completed - Menu ready");
-            CreateMenu();
-            MenuVisibilityManager.Instance.SetVisible(true);
+            try
+            {
+                LogMessage("ResourcesPrefabManager.Load completed - Menu ready");
+                CreateMenu();
+                MenuVisibilityManager.Instance.SetVisible(true);
+            }
+            catch (Exception ex)
+            {
+                LogMessage($"Error in OnResourcesLoaded: {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         private void LogMessage(string message)

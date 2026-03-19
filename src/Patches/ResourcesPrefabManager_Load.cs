@@ -1,5 +1,7 @@
 using HarmonyLib;
 using OutwardModsCommunicatorMenu.Managers;
+using System;
+using UnityEngine;
 
 namespace OutwardModsCommunicatorMenu.Patches
 {
@@ -9,7 +11,14 @@ namespace OutwardModsCommunicatorMenu.Patches
         [HarmonyPatch(typeof(ResourcesPrefabManager), nameof(ResourcesPrefabManager.Load))]
         public static void Postfix(ResourcesPrefabManager __instance)
         {
-            UIManager.Instance.OnResourcesLoaded();
+            try
+            {
+                UIManager.Instance.OnResourcesLoaded();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[OMM] Error in ResourcesPrefabManager_Load patch: {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
+            }
         }
     }
 }

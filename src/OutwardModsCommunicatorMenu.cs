@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -15,6 +15,7 @@ using OutwardModsCommunicatorMenu.Events;
 using OutwardModsCommunicatorMenu.Utility.Enums;
 using OutwardModsCommunicatorMenu.Managers;
 using UnityEngine;
+using UniverseLib;
 
 // RENAME 'OutwardModPackTemplate' TO SOMETHING ELSE
 namespace OutwardModsCommunicatorMenu
@@ -46,17 +47,23 @@ namespace OutwardModsCommunicatorMenu
         // Awake is called when your plugin is created. Use this to set up your mod.
         internal void Awake()
         {
-            // You can find BepInEx logs in directory "BepInEx\LogOutput.log"
-            Log = this.Logger;
-            LogMessage($"Hello world from {NAME} {VERSION}!");
+            try
+            {
+                Log = this.Logger;
+                LogMessage($"Hello world from {NAME} {VERSION}!");
 
-            // Harmony is for patching methods. If you're not patching anything, you can comment-out or delete this line.
-            new Harmony(GUID).PatchAll();
+                Universe.Init(
+                    onInitialized: () => LogMessage("UniverseLib initialized"),
+                    logHandler: (msg, type) => LogMessage($"[UniverseLib] {msg}"));
 
-            //EventBusSubscriber.AddSubscribers();
-            EventBusPublisher.SendCommands();
-
-            Managers.UIManager.Instance.Initialize(Log);
+                new Harmony(GUID).PatchAll();
+                Managers.UIManager.Instance.Initialize(Log);
+                LogMessage("Awake completed successfully");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"[OMCM] Error in Awake: {ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         // Update is called once per frame. Use this only if needed.
