@@ -1,0 +1,4 @@
+This software uses UniverseLib (https://github.com/sinai-dev/UniverseLib)
+licensed under LGPL-2.1. The source code for UniverseLib is available at the
+above URL. A written offer to provide the source code is valid for 3 years
+from the date of distribution.

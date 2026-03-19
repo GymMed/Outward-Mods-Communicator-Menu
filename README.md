@@ -74,14 +74,14 @@ Use this tab to send events to mods.
 1. Enter the **Mod GUID** (e.g., `gymmed.loot_manager_*`)
 <details>
 <summary>
-2. Enter the **Event Name** (e.g., `AddLoot`)
+2. Enter the <strong>Event Name</strong> (e.g., <code>AddLoot</code>)
 </summary>
     <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm2.png" alt="Logo"/>
 </details>
 
 <details>
 <summary>
-3. Click on **registered parameters** to add them, or create custom **dynamic parameters**
+3. Click on <strong>registered parameters</strong> to add them, or create custom <strong>dynamic parameters</strong>
 </summary>
     <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm3.png" alt="Logo"/>
 </details>
@@ -192,6 +192,12 @@ The menu is built using:
 - **UniverseLib**: For creating the in-game UI panels
 - **Event Bus**: Connects to Outward Mods Communicator's event system
 - **Harmony**: For game method patching
+
+## Licensing
+
+This project is licensed under MIT. See [LICENSE](LICENSE) file for details.
+
+This software uses **UniverseLib** (https://github.com/sinai-dev/UniverseLib) licensed under **LGPL-2.1**. The source code for UniverseLib is available at the above URL. A written offer to provide the source code is valid for 3 years from the date of distribution.
 
 ## Support
 
