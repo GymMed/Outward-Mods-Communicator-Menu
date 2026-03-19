@@ -29,16 +29,21 @@ namespace OutwardModsCommunicatorMenu.UI.Builders
             if (valueStr.Length > 100)
                 valueStr = valueStr.Substring(0, 100) + "...";
 
-            var label = UIFactory.CreateLabel(
-                parent,
-                $"{name}_Simple",
-                $"{typeName}: {valueStr}",
-                TextAnchor.MiddleLeft,
-                new Color(0.7f, 0.8f, 0.9f, 1f),
-                false,
-                11
-            );
-            UIFactory.SetLayoutElement(label.gameObject, flexibleWidth: 9999, minHeight: 18);
+            CreateLockedInputField(parent, $"{name}_Simple", $"{typeName}: {valueStr}");
+        }
+
+        private static void CreateLockedInputField(GameObject parent, string name, string value)
+        {
+            var input = UIFactory.CreateInputField(parent, name, "");
+            
+            var bgImage = input.Component.GetComponent<UnityEngine.UI.Image>();
+            if (bgImage != null)
+            {
+                bgImage.color = new Color(0.15f, 0.15f, 0.2f, 1f);
+            }
+            
+            input.Text = value;
+            UIFactory.SetLayoutElement(input.GameObject, flexibleWidth: 9999, minHeight: 18);
         }
 
         private static bool IsSimpleType(object value)

@@ -44,7 +44,7 @@ This mod requires the following dependencies to be installed:
 | [Outward Mods Communicator](https://github.com/GymMed/Outward-Mods-Communicator) | Core event bus system |
 | [Chat Commands Manager](https://github.com/GymMed/Outward-Chat-Commands-Manager) | Enables `/MCMenu` command |
 | SideLoader | Keybinding support |
-| UniverseLib | UI framework |
+| [UniverseLib](https://github.com/sinai-dev/UniverseLib) | UI framework |
 
 ## How to Use
 
@@ -53,7 +53,7 @@ This mod requires the following dependencies to be installed:
 You can open the menu in two ways:
 
 1. **Chat Command**: Type `/MCMenu` in the in-game chat
-2. **Keyboard Shortcut**: Press your configured hotkey (default: `K` or similar)
+2. **Keyboard Shortcut**: Press your configured hotkey (needs to be set through settings)
 
 ### Menu Tabs
 
@@ -62,13 +62,29 @@ The menu has three main tabs:
 <details>
 <summary><strong>Publish Tab</strong></summary>
 
+<details>
+<summary>
 Use this tab to send events to mods. 
+</summary>
+  <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm1.png" alt="Logo"/>
+</details>
 
 **How to publish an event:**
 
 1. Enter the **Mod GUID** (e.g., `gymmed.loot_manager_*`)
+<details>
+<summary>
 2. Enter the **Event Name** (e.g., `AddLoot`)
+</summary>
+    <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm2.png" alt="Logo"/>
+</details>
+
+<details>
+<summary>
 3. Click on **registered parameters** to add them, or create custom **dynamic parameters**
+</summary>
+    <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm3.png" alt="Logo"/>
+</details>
 4. Click **Publish** to send the event
 
 **Parameters:**
@@ -86,7 +102,12 @@ View which mods are listening to which events. This shows you:
 - What callback methods they use
 - The event names they're listening for
 
+<details>
+<summary>
 This helps you understand how different mods communicate and react to each other.
+</summary>
+  <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm4.png" alt="Logo"/>
+</details>
 
 </details>
 
@@ -99,7 +120,12 @@ See which mods have published events. This shows:
 - The events they've sent
 - Payload data that was sent
 
+<details>
+<summary>
 Useful for debugging and understanding the event flow between mods.
+</summary>
+  <img src="https://raw.githubusercontent.com/GymMed/Outward-Mods-Communicator-Menu/refs/heads/main/preview/images/mcm5.png" alt="Logo"/>
+</details>
 
 </details>
 
@@ -159,24 +185,6 @@ Install through the Thunderstore mod manager by searching for "Mods Communicator
 - Not all events have registered parameters
 - Use dynamic parameters to add custom data
 
-## Example Use Cases
-
-### Adding Custom Loot
-
-```
-Mod GUID: gymmed.loot_manager_*
-Event: AddLoot
-Parameters: --itemId=4300040 --faction=Bandits
-```
-
-### Loading Custom Configuration
-
-```
-Mod GUID: gymmed.loot_manager_*
-Event: LootRulesSerializer@LoadCustomLoots
-Parameters: --filePath="C:/documents/myPath"
-```
-
 ## Technical Details
 
 The menu is built using:
@@ -184,12 +192,6 @@ The menu is built using:
 - **UniverseLib**: For creating the in-game UI panels
 - **Event Bus**: Connects to Outward Mods Communicator's event system
 - **Harmony**: For game method patching
-
-## Credits
-
-- [GymMed](https://github.com/GymMed) - Original creator
-- [Outward Mods Communicator](https://github.com/GymMed/Outward-Mods-Communicator) - Event system
-- [Chat Commands Manager](https://github.com/GymMed/Outward-Chat-Commands-Manager) - Chat integration
 
 ## Support
 

@@ -234,9 +234,9 @@ namespace OutwardModsCommunicatorMenu.UI.Builders
                     TextAnchor.MiddleLeft,
                     new Color(0.6f, 0.7f, 0.8f, 1f),
                     false,
-                    10
+                    13
                 );
-                UIFactory.SetLayoutElement(indexLabel.gameObject, minWidth: 35, minHeight: 18);
+                UIFactory.SetLayoutElement(indexLabel.gameObject, minWidth: 35, minHeight: 20);
 
                 string itemTypeName = item?.GetType().Name ?? "null";
                 var typeLabel = UIFactory.CreateLabel(
@@ -246,22 +246,29 @@ namespace OutwardModsCommunicatorMenu.UI.Builders
                     TextAnchor.MiddleLeft,
                     new Color(0.6f, 0.7f, 0.9f, 1f),
                     false,
-                    10
+                    13
                 );
-                UIFactory.SetLayoutElement(typeLabel.gameObject, minWidth: 80, minHeight: 18);
+                UIFactory.SetLayoutElement(typeLabel.gameObject, minWidth: 80, minHeight: 20);
 
                 if (!string.IsNullOrEmpty(preview))
                 {
-                    var previewLabel = UIFactory.CreateLabel(
-                        itemHeader,
-                        $"{itemName}_preview",
-                        $" = {preview}",
-                        TextAnchor.MiddleLeft,
-                        new Color(0.7f, 0.7f, 0.75f, 1f),
-                        false,
-                        10
-                    );
-                    UIFactory.SetLayoutElement(previewLabel.gameObject, flexibleWidth: 9999, minHeight: 18);
+                    if (IsSimpleType(item))
+                    {
+                        CreateLockedInputField(itemHeader, $"{itemName}_preview", preview);
+                    }
+                    else
+                    {
+                        var previewLabel = UIFactory.CreateLabel(
+                            itemHeader,
+                            $"{itemName}_preview",
+                            $" = {preview}",
+                            TextAnchor.MiddleLeft,
+                            new Color(0.7f, 0.7f, 0.75f, 1f),
+                            false,
+                            13
+                        );
+                        UIFactory.SetLayoutElement(previewLabel.gameObject, flexibleWidth: 9999, minHeight: 20);
+                    }
                 }
 
                 var detailContent = UIFactory.CreateVerticalGroup(
@@ -365,9 +372,9 @@ namespace OutwardModsCommunicatorMenu.UI.Builders
                     TextAnchor.MiddleLeft,
                     new Color(0.5f, 0.5f, 0.5f, 1f),
                     false,
-                    10
+                    13
                 );
-                UIFactory.SetLayoutElement(maxDepthLabel.gameObject, minHeight: 16);
+                UIFactory.SetLayoutElement(maxDepthLabel.gameObject, minHeight: 20);
                 return;
             }
 
@@ -390,9 +397,9 @@ namespace OutwardModsCommunicatorMenu.UI.Builders
                     TextAnchor.MiddleLeft,
                     new Color(0.5f, 0.6f, 0.8f, 1f),
                     true,
-                    10
+                    13
                 );
-                UIFactory.SetLayoutElement(headerLabel.gameObject, flexibleWidth: 9999, minHeight: 18);
+                UIFactory.SetLayoutElement(headerLabel.gameObject, flexibleWidth: 9999, minHeight: 20);
                 
                 foreach (var member in members)
                 {
@@ -418,7 +425,7 @@ namespace OutwardModsCommunicatorMenu.UI.Builders
                 false, false, true, true,
                 spacing: 5
             );
-            UIFactory.SetLayoutElement(memberContainer, minHeight: 16);
+            UIFactory.SetLayoutElement(memberContainer, minHeight: 20);
             
             var nameLabel = UIFactory.CreateLabel(
                 memberContainer,
@@ -427,45 +434,46 @@ namespace OutwardModsCommunicatorMenu.UI.Builders
                 TextAnchor.MiddleLeft,
                 new Color(0.6f, 0.7f, 0.85f, 1f),
                 false,
-                10
+                13
             );
-            UIFactory.SetLayoutElement(nameLabel.gameObject, minWidth: 80, minHeight: 16);
+            UIFactory.SetLayoutElement(nameLabel.gameObject, minWidth: 80, minHeight: 20);
             
-            string valueStr;
-            Color valueColor;
+            bool isSimple = memberValue == null || IsSimpleType(memberValue);
             
-            if (memberValue == null)
+            if (isSimple)
             {
-                valueStr = "null";
-                valueColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-            }
-            else if (memberValue is ICollection col)
-            {
-                valueStr = $"<{col.GetType().Name} Count={col.Count}>";
-                valueColor = new Color(0.7f, 0.8f, 0.9f, 1f);
-            }
-            else if (memberValue is Array arr)
-            {
-                valueStr = $"<{arr.GetType().Name} Length={arr.Length}>";
-                valueColor = new Color(0.7f, 0.8f, 0.9f, 1f);
+                string displayValue = memberValue == null ? "null" : memberValue.ToString();
+                if (displayValue.Length > 60) displayValue = displayValue.Substring(0, 60) + "...";
+                CreateLockedInputField(memberContainer, $"MemberValue_{name}", displayValue);
             }
             else
             {
-                valueStr = memberValue.ToString();
-                if (valueStr.Length > 60) valueStr = valueStr.Substring(0, 60) + "...";
-                valueColor = new Color(0.8f, 0.8f, 0.85f, 1f);
+                string valueStr;
+                if (memberValue is ICollection col)
+                {
+                    valueStr = $"<{col.GetType().Name} Count={col.Count}>";
+                }
+                else if (memberValue is Array arr)
+                {
+                    valueStr = $"<{arr.GetType().Name} Length={arr.Length}>";
+                }
+                else
+                {
+                    valueStr = memberValue.ToString();
+                    if (valueStr.Length > 60) valueStr = valueStr.Substring(0, 60) + "...";
+                }
+                
+                var valueLabel = UIFactory.CreateLabel(
+                    memberContainer,
+                    $"MemberValue_{name}",
+                    valueStr,
+                    TextAnchor.MiddleLeft,
+                    new Color(0.7f, 0.8f, 0.9f, 1f),
+                    false,
+                    13
+                );
+                UIFactory.SetLayoutElement(valueLabel.gameObject, flexibleWidth: 9999, minHeight: 20);
             }
-            
-            var valueLabel = UIFactory.CreateLabel(
-                memberContainer,
-                $"MemberValue_{name}",
-                valueStr,
-                TextAnchor.MiddleLeft,
-                valueColor,
-                false,
-                10
-            );
-            UIFactory.SetLayoutElement(valueLabel.gameObject, flexibleWidth: 9999, minHeight: 16);
         }
 
         private static string GetValuePreview(object value)
@@ -485,6 +493,20 @@ namespace OutwardModsCommunicatorMenu.UI.Builders
                 6
             );
             UIFactory.SetLayoutElement(separator.gameObject, flexibleWidth: 9999, minHeight: 4);
+        }
+
+        private void CreateLockedInputField(GameObject parent, string name, string value)
+        {
+            var input = UIFactory.CreateInputField(parent, name, "");
+            
+            var bgImage = input.Component.GetComponent<UnityEngine.UI.Image>();
+            if (bgImage != null)
+            {
+                bgImage.color = new Color(0.15f, 0.15f, 0.2f, 1f);
+            }
+            
+            input.Text = value;
+            UIFactory.SetLayoutElement(input.GameObject, flexibleWidth: 9999, minHeight: 20);
         }
     }
 }
