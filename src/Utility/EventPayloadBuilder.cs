@@ -2,14 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using OutwardModsCommunicator.EventBus;
-using UniverseLib.Utility;
 using OutwardModsCommunicatorMenu.Utility;
+using OutwardModsCommunicatorMenu.Utility.Parsing;
 
 namespace OutwardModsCommunicatorMenu.Utility
 {
     public class EventPayloadBuilder
     {
         private readonly List<PayloadParameter> _parameters = new();
+        private readonly IValueParser _valueParser;
+
+        public EventPayloadBuilder() : this(new ValueParser())
+        {
+        }
+
+        public EventPayloadBuilder(IValueParser valueParser)
+        {
+            _valueParser = valueParser ?? throw new ArgumentNullException(nameof(valueParser));
+        }
 
         public void AddParameter(string name, Type type, string value)
         {
@@ -27,97 +37,19 @@ namespace OutwardModsCommunicatorMenu.Utility
                     continue;
 
                 string displayTypeName = TypeNameFormatter.Format(param.Type);
-                var parseResult = TryParseParameterValue(param.Type, param.Value);
+                var (value, error) = _valueParser.TryParse(param.Value, param.Type);
                 
-                if (parseResult.Success)
+                if (error == null)
                 {
-                    payload[param.Name] = parseResult.Value;
+                    payload[param.Name] = value;
                 }
                 else
                 {
-                    errors.AppendLine($"Failed to parse '{param.Value}' as {displayTypeName}: {parseResult.ErrorMessage}");
+                    errors.AppendLine($"Failed to parse '{param.Value}' as {displayTypeName}: {error}");
                 }
             }
 
             return (payload, errors.ToString());
-        }
-
-        private static ParseResult TryParseParameterValue(Type type, string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return ParseResult.CreateFailure("Empty value");
-
-            if (CollectionValueParser.IsCollectionType(type))
-            {
-                var (collectionValue, collectionError) = CollectionValueParser.TryParse(type, value);
-                if (collectionError != null)
-                    return ParseResult.CreateFailure(collectionError);
-                return ParseResult.CreateSuccess(collectionValue);
-            }
-
-            Type enumType = GetEnumType(type);
-            if (enumType != null)
-            {
-                if (TryParseEnumValue(enumType, value, out object enumValue))
-                {
-                    return ParseResult.CreateSuccess(enumValue);
-                }
-                var enumNames = string.Join(", ", Enum.GetNames(enumType));
-                return ParseResult.CreateFailure($"Expected one of: {enumNames}");
-            }
-
-            if (ParseUtility.TryParse(value, type, out object parsedValue, out Exception ex))
-            {
-                return ParseResult.CreateSuccess(parsedValue);
-            }
-
-            return ParseResult.CreateFailure("Unable to parse value");
-        }
-
-        private static Type GetEnumType(Type type)
-        {
-            if (type.IsEnum)
-                return type;
-            
-            Type underlyingType = Nullable.GetUnderlyingType(type);
-            if (underlyingType != null && underlyingType.IsEnum)
-                return underlyingType;
-            
-            return null;
-        }
-
-        private static bool TryParseEnumValue(Type enumType, string valueString, out object result)
-        {
-            result = null;
-            if (string.IsNullOrWhiteSpace(valueString) || enumType == null || !enumType.IsEnum)
-                return false;
-
-            try
-            {
-                result = Enum.Parse(enumType, valueString, true);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private readonly struct ParseResult
-        {
-            public bool Success { get; }
-            public object Value { get; }
-            public string ErrorMessage { get; }
-
-            private ParseResult(bool success, object value, string errorMessage)
-            {
-                Success = success;
-                Value = value;
-                ErrorMessage = errorMessage;
-            }
-
-            public static ParseResult CreateSuccess(object value) => new ParseResult(true, value, null);
-            public static ParseResult CreateFailure(string errorMessage) => new ParseResult(false, null, errorMessage);
         }
 
         public void Clear()

@@ -1,6 +1,6 @@
 {
 	"name": "Mods_Communicator_Menu",
-	"version_number": "0.0.1",
+	"version_number": "0.0.2",
 	"website_url": "https://github.com/GymMed/Outward-Mods-Communicator-Menu",
 	"description": "Menu to inspect mods communicator interactions and publish events.",
 	"dependencies": [

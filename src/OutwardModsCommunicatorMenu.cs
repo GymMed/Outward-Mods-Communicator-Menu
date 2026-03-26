@@ -14,6 +14,7 @@ using OutwardModsCommunicator.EventBus;
 using OutwardModsCommunicatorMenu.Events;
 using OutwardModsCommunicatorMenu.Utility.Enums;
 using OutwardModsCommunicatorMenu.Managers;
+using OutwardModsCommunicatorMenu.Tests;
 using UnityEngine;
 using UniverseLib;
 using UniverseLib.Config;
@@ -32,7 +33,7 @@ namespace OutwardModsCommunicatorMenu
         // Choose a NAME for your project, generally the same as your Assembly Name.
         public const string NAME = "Mods Communicator Menu";
         // Increment the VERSION when you release a new version of your mod.
-        public const string VERSION = "0.0.1";
+        public const string VERSION = "0.0.2";
 
         // Choose prefix for log messages for quicker search and readablity
         public static string prefix = "[Mods-Communicator-Menu]";
@@ -64,6 +65,11 @@ namespace OutwardModsCommunicatorMenu
 
                 new Harmony(GUID).PatchAll();
                 Managers.UIManager.Instance.Initialize(Log);
+
+#if DEBUG
+                RunDebugTests();
+#endif
+
                 LogMessage("Awake completed successfully");
             }
             catch (Exception ex)
@@ -97,10 +103,20 @@ namespace OutwardModsCommunicatorMenu
             SL.Log($"{OMCM.prefix} {message}");
         }
 
-        // Gets mod dll location at run time
+// Gets mod dll location at run time
         public static string GetProjectLocation()
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
+
+#if DEBUG
+        private void RunDebugTests()
+        {
+            LogMessage("Running debug tests...");
+            var tests = new TypeParserTests();
+            tests.RunAllTests();
+            LogMessage("Debug tests completed.");
+        }
+#endif
     }
 }
