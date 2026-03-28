@@ -1,10 +1,17 @@
 ## Changelog
 
+### Release 0.0.3 Version
+
+#### Fixed
+
+-   Made sure that <code>/MCMenu</code> command works correctly. Provided
+    correct listener.
+
 ### Release 0.0.2 Version
 
 #### Added
 
--   Added live tests for parsing strings to data types. Only in debug build
+-   Added live tests for parsing strings to data types. Only in debug build 
 
 #### Fixed
 

@@ -18,7 +18,7 @@ namespace OutwardModsCommunicatorMenu.Events
         public const string Event_RemoveCommand = "ChatCommandsManager@RemoveChatCommand";
 
         //other mods listener uid
-        public const string ChatCommands_Listener = "gymmed.mods_communicator_menu_*";
+        public const string ChatCommands_Listener = "gymmed.chat_commands_manager_*";
 
         public static void SendCommands()
         {
